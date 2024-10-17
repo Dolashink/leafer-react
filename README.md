@@ -1,4 +1,5 @@
-# Rsbuild Project
+# Leafer-react
+A react component base on leafer-ui.
 
 ## Setup
 
