@@ -1,40 +1,29 @@
-# Modern.js Package
+# Leafer-react
+A React components library based on leafer-ui
 
 ## Setup
-
-Install the dependencies:
-
-```bash
-pnpm run install
+You should install the package first
+```
+npm install leafer-react
 ```
 
 ## Get Started
+Use it like react component
+```javascript
+import { LeaferApp, Frame, Rect } from 'leafer-react';
 
-Run and debug the module:
+function MyLeaferApp () {
+    return (
+        <LeaferApp>
+            <Frame fill="#f5f5f5" />
+                <Rect width={375} height={667} fill="red" />
+            </Frame>
+        <LeaferApp />
+    )
+}
 
-```bash
-pnpm run dev
+export MyLeaferApp;
 ```
 
-Build the module for production:
 
-```bash
-pnpm run build
-```
-
-Enable optional features:
-
-```bash
-pnpm run new
-```
-
-Other commands:
-
-```bash
-pnpm run lint         # Lint and fix source files
-pnpm run change       # Add a new changeset
-pnpm run bump         # Update version and changelog via changeset
-pnpm run release      # Release the package
-```
-
-For more information, see the [Modern.js Module documentation](https://modernjs.dev/module-tools/en).
+For more information, see the [github](https://github.com/Dolashink/leafer-react).

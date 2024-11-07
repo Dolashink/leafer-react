@@ -18,15 +18,18 @@ output_resource/
 tests/
 
 .vscode/**/*
-!.vscode/settings.json
-!.vscode/extensions.json
+.changeset/**/*
 .idea/
 
 src/
+biome.json
+.nvmrc
 
 modern.config.*
 jest.config.js
 tsconfig.json
 CHANGELOG.md
+
+scripts.npmignore
 
 **/*/api/typings/auto-generated
