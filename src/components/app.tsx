@@ -27,11 +27,14 @@ import '@leafer-in/text-editor';
 import '@leafer-in/view';
 import { ScrollBar } from '@leafer-in/scroll';
 import { Ruler } from 'leafer-x-ruler';
+import useLeaferProps from '../hooks/useLeaferProps';
+import { useLeaferView } from '../hooks/useLeaferView';
 import type { MoveEvent } from '../types/editor';
 
 export interface LeaferAppRef {
-  leaferApp: App;
-  editor: IEditorBase;
+  leaferApp: App | null;
+  editor?: IEditorBase;
+  zoom?: ILeafer['zoom'];
 }
 
 export interface AppProps extends IAppConfig {
@@ -39,6 +42,10 @@ export interface AppProps extends IAppConfig {
   appId?: string;
   className?: string;
   ruler?: boolean;
+  scrollBar?: boolean;
+  disableMove?: boolean;
+  disableWheel?: boolean;
+  disableZoom?: boolean;
   onSelect?: (e: EditorEvent) => void;
   onMove?: (e: EditorMoveEvent) => void;
   onMoveEnd?: (e: MoveEvent) => void;
@@ -51,11 +58,12 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
     appId = 'default',
     className,
     ruler = true,
+    scrollBar = true,
     onSelect,
     onMove,
     onScale,
     onMoveEnd,
-    editor = {},
+    editor,
     ...rest
   } = props;
   const rulerRef = useRef<Ruler | null>(null);
@@ -67,35 +75,43 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
       rulerRef.current = new Ruler(app);
       scrollBarRef.current = new ScrollBar(app);
     }
-    // 监听editor事件
+    // Listen to editor events
     app.editor?.on(EditorEvent.SELECT, onSelect);
     app.editor?.on(EditorMoveEvent.MOVE, onMove);
     app.editor?.on(EditorScaleEvent.SCALE, onScale);
-    // 监听编辑器编辑框的拖拽结束事件，实现编辑器的拖拽结束事件（参考源码实现）
+    // Listen to editor's edit box drag end event to implement editor drag end event (refer to source code)
     app.editor?.editBox?.rect?.on(DragEvent.END, (e: LeaferMoveEvent) => {
-      // 不直接修改只读属性 target, 而是创建新对象
+      // Create new object instead of modifying readonly target property
       const event = { ...e, target: app.editor.target };
       onMoveEnd?.(event as MoveEvent);
     });
     return app;
   };
 
-  const [initialized, leaferApp] = useLeaferComponent(initApp);
+  const [leaferApp, initialized] = useLeaferComponent(initApp);
 
   useEffect(() => {
     rulerRef.current?.changeEnabled(ruler);
-  }, [ruler]);
+    scrollBarRef.current?.setAttr('visible', scrollBar);
+  }, [ruler, scrollBar]);
 
   useEffect(() => {
     if (!leaferApp) return;
     requestIdleCallback(() => {
-      leaferApp.tree.zoom({ x: 0, y: 0, width: 375, height: 667 });
+      if (leaferApp.tree.children.length) {
+        leaferApp.tree.zoom(leaferApp.tree.children[0]);
+      }
     });
   }, [leaferApp]);
 
+  useLeaferView(leaferApp, props);
+
+  useLeaferProps(leaferApp, rest);
+
   useImperativeHandle(ref, () => ({
-    leaferApp: leaferApp as App,
-    editor: leaferApp?.editor as IEditorBase,
+    leaferApp,
+    editor: leaferApp?.editor,
+    zoom: leaferApp?.tree.zoom,
   }));
 
   return (
@@ -104,7 +120,9 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
       id={appId}
       style={{ width: '100%', height: '100%', flex: 1 }}
     >
-      <LeaferContext.Provider value={leaferApp?.tree as ILeafer}>
+      <LeaferContext.Provider
+        value={editor ? (leaferApp?.tree as ILeafer) : leaferApp}
+      >
         {initialized && children}
       </LeaferContext.Provider>
     </div>

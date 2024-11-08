@@ -14,6 +14,7 @@ import {
   Platform,
 } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface ISvgProps extends Omit<IImageInputData, 'children'> {
   url: string;
@@ -47,7 +48,9 @@ function Svg(props: ISvgProps) {
     });
   };
 
-  useLeaferComponent(createSvg);
+  const [leaferSvg] = useLeaferComponent(createSvg);
+
+  useLeaferProps(leaferSvg, props);
 
   return null;
 }

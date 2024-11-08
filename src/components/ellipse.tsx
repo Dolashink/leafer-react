@@ -9,11 +9,14 @@
 
 import { type IEllipseInputData, Ellipse as LeaferEllipse } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IEllipseProps extends Omit<IEllipseInputData, 'children'> {}
 
 function Ellipse(props: IEllipseProps) {
-  useLeaferComponent(() => new LeaferEllipse(props));
+  const [leaferEllipse] = useLeaferComponent(() => new LeaferEllipse(props));
+
+  useLeaferProps(leaferEllipse, props);
 
   return null;
 }

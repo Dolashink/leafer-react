@@ -20,8 +20,10 @@ tests/
 .vscode/**/*
 .changeset/**/*
 .idea/
+.storybook/**/*
 
 src/
+stories/
 biome.json
 .nvmrc
 

@@ -17,6 +17,8 @@
   },
   "license": "MIT",
   "scripts": {
+    "build-storybook": "storybook build",
+    "storybook": "storybook dev -p 6006",
     "prepare": "modern build && simple-git-hooks",
     "dev": "modern dev",
     "build": "modern build",
@@ -65,7 +67,9 @@
     "lint-staged": "~13.1.0",
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.11.1",
-    "typescript": "~5.5.4"
+    "typescript": "~5.5.4",
+    "@modern-js/storybook": "2.60.4",
+    "@storybook/addon-essentials": "^7"
   },
   "sideEffects": [],
   "publishConfig": {

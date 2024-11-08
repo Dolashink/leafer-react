@@ -9,11 +9,14 @@
 
 import { type IPenInputData, Pen as LeaferPen } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IPenProps extends Omit<IPenInputData, 'children'> {}
 
 function Pen(props: IPenProps) {
-  useLeaferComponent(() => new LeaferPen(props));
+  const [leaferPen] = useLeaferComponent(() => new LeaferPen(props));
+
+  useLeaferProps(leaferPen, props);
 
   return null;
 }

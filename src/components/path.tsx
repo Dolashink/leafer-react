@@ -1,5 +1,5 @@
 /*
- * @Description: 路径组件
+ * @Description: Path component
  *
  * @Author: Jin
  * @Date: 2024-10-14 14:51:27
@@ -9,11 +9,14 @@
 
 import { type IPathInputData, Path as LeaferPath } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IPathProps extends Omit<IPathInputData, 'children'> {}
 
 function Path(props: IPathProps) {
-  useLeaferComponent(() => new LeaferPath(props));
+  const [leaferPath] = useLeaferComponent(() => new LeaferPath(props));
+
+  useLeaferProps(leaferPath, props);
 
   return null;
 }

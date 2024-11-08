@@ -10,6 +10,7 @@
 import { ImageEvent } from 'leafer-ui';
 import { useEffect } from 'react';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 import { CustomImage, type ICustomInputData } from './custom/image';
 
 export interface IImageProps extends Omit<ICustomInputData, 'children'> {
@@ -37,13 +38,15 @@ function Image(props: IImageProps) {
     return image;
   };
 
-  const [, image] = useLeaferComponent(initImage);
+  const [image] = useLeaferComponent(initImage);
 
   useEffect(() => {
     if (image) {
       image.__applyFilters(props.filters);
     }
   }, [image, props.filters]);
+
+  useLeaferProps(image, props);
 
   return null;
 }

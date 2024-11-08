@@ -38,7 +38,7 @@ function useLeaferComponent<T extends UI>(createComponent: () => T) {
     };
   }, [parentComponent, mountedCallback]); // Dependencies: parent component and component creation function
 
-  return [initialized, componentRef.current] as [boolean, T | null];
+  return [componentRef.current, initialized] as [T | null, boolean];
 }
 
 export default useLeaferComponent;

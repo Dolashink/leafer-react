@@ -7,6 +7,7 @@
  * Copyright © 2014-2024 Rabbitpre.com. All Rights Reserved.
  */
 
+// eslint-disable-next-line max-classes-per-file
 import type {
   ILeaferCanvas,
   ILeaferImage,

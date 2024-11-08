@@ -11,6 +11,7 @@ import { type IBoxInputData, Box as LeaferBox } from 'leafer-ui';
 import type React from 'react';
 import { LeaferContext } from '../context/leaferContext';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IBoxProps extends Omit<IBoxInputData, 'children'> {
   children?: React.ReactNode;
@@ -19,9 +20,11 @@ export interface IBoxProps extends Omit<IBoxInputData, 'children'> {
 function Box(props: IBoxProps) {
   const { children, ...rest } = props;
 
-  const [initialized, leaferBox] = useLeaferComponent(
+  const [leaferBox, initialized] = useLeaferComponent(
     () => new LeaferBox(rest),
   );
+
+  useLeaferProps(leaferBox, rest);
 
   return (
     <LeaferContext.Provider value={leaferBox}>

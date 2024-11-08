@@ -8,10 +8,10 @@
  */
 
 import { type IFrameInputData, Frame as LeaferFrame } from 'leafer-ui';
-import React from 'react';
-import { useImperativeHandle } from 'react';
+import React, { useImperativeHandle } from 'react';
 import { LeaferContext } from '../context/leaferContext';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IFrameProps extends Omit<IFrameInputData, 'children'> {
   children?: React.ReactNode;
@@ -24,9 +24,11 @@ export interface FrameRef {
 function Frame(props: IFrameProps, ref: React.Ref<FrameRef>) {
   const { children, ...rest } = props;
 
-  const [initialized, leaferFrame] = useLeaferComponent(
+  const [leaferFrame, initialized] = useLeaferComponent(
     () => new LeaferFrame(rest),
   );
+
+  useLeaferProps(leaferFrame, rest);
 
   useImperativeHandle(ref, () => ({
     leaferFrame: leaferFrame as LeaferFrame,

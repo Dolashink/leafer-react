@@ -9,11 +9,14 @@
 
 import { type ILineInputData, Line as LeaferLine } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface ILineProps extends Omit<ILineInputData, 'children'> {}
 
 function Line(props: ILineProps) {
-  useLeaferComponent(() => new LeaferLine(props));
+  const [leaferLine] = useLeaferComponent(() => new LeaferLine(props));
+
+  useLeaferProps(leaferLine, props);
 
   return null;
 }

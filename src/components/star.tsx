@@ -9,11 +9,14 @@
 
 import { type IStarInputData, Star as LeaferStar } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IStarProps extends Omit<IStarInputData, 'children'> {}
 
 function Star(props: IStarProps) {
-  useLeaferComponent(() => new LeaferStar(props));
+  const [leaferStar] = useLeaferComponent(() => new LeaferStar(props));
+
+  useLeaferProps(leaferStar, props);
 
   return null;
 }

@@ -9,11 +9,14 @@
 
 import { type IPolygonInputData, Polygon as LeaferPolygon } from 'leafer-ui';
 import useLeaferComponent from '../hooks/useLeaferComponent';
+import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IPolygonProps extends Omit<IPolygonInputData, 'children'> {}
 
 function Polygon(props: IPolygonProps) {
-  useLeaferComponent(() => new LeaferPolygon(props));
+  const [leaferPolygon] = useLeaferComponent(() => new LeaferPolygon(props));
+
+  useLeaferProps(leaferPolygon, props);
 
   return null;
 }
