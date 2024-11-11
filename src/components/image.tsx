@@ -11,9 +11,14 @@ import { ImageEvent } from 'leafer-ui';
 import { useEffect } from 'react';
 import useLeaferComponent from '../hooks/useLeaferComponent';
 import useLeaferProps from '../hooks/useLeaferProps';
-import { CustomImage, type ICustomInputData } from './custom/image';
+import {
+  CustomImage,
+  type FitMode,
+  type ICustomInputData,
+} from './custom/image';
 
 export interface IImageProps extends Omit<ICustomInputData, 'children'> {
+  objectFit?: FitMode;
   onLoad?: () => void;
   onLoaded?: () => void;
   onError?: (error: Error) => void;
@@ -42,9 +47,16 @@ function Image(props: IImageProps) {
 
   useEffect(() => {
     if (image) {
-      image.__applyFilters(props.filters);
+      image.applyFilters(props.filters);
     }
   }, [image, props.filters]);
+
+  useEffect(() => {
+    if (image && props.objectFit) {
+      image.objectFit = props.objectFit;
+      image.forceUpdate();
+    }
+  }, [image, props.objectFit]);
 
   useLeaferProps(image, props);
 

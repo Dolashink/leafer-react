@@ -12,6 +12,7 @@ import type {
   ILeaferCanvas,
   ILeaferImage,
   IRadiusPointData,
+  IRenderOptions,
   IUIData,
   IUIInputData,
 } from '@leafer-ui/interface';
@@ -28,9 +29,12 @@ import { type IBaseFilter, getWebFilterBackend } from '../../utils/image';
 
 // Define data
 
+export type FitMode = 'fill' | 'cover';
+
 export interface ICustomInputData extends IUIInputData {
   url?: string;
   filters?: IBaseFilter;
+  objectFit?: FitMode;
 }
 
 export interface ICustomData extends IUIData {}
@@ -55,6 +59,8 @@ export class CustomImage extends UI {
 
   public __originHeight = 0;
 
+  public objectFit: FitMode = 'fill';
+
   public filters: IBaseFilter = [];
 
   @dataProcessor(CustomData)
@@ -67,6 +73,8 @@ export class CustomImage extends UI {
 
     if (data.url && !data.fill) this.drawImage(data.url);
 
+    this.objectFit = data.objectFit || 'fill';
+
     if (data.filters) this.filters = data.filters;
 
     this.on(ImageEvent.LOADED, (e: ImageEvent) => {
@@ -77,7 +85,7 @@ export class CustomImage extends UI {
       this.__originHeight = e.image.height;
       this.__element.width = this.width;
       this.__element.height = this.height;
-      if (this.filters?.length) this.__applyFilters(this.filters);
+      if (this.filters?.length) this.applyFilters(this.filters);
       this.forceUpdate();
     });
   }
@@ -133,32 +141,47 @@ export class CustomImage extends UI {
   }
 
   // 4. Draw custom content
-  __draw(canvas: ILeaferCanvas): void {
+  __draw(canvas: ILeaferCanvas, options: IRenderOptions): void {
     const { context } = canvas;
     const { width, height } = this.__;
     if (!width || !height) return;
 
     canvas.setStrokeOptions(this.__); // Set stroke options before drawing stroke (optional)
 
-    if (this.fill) {
-      canvas.fillStyle = this.fill;
-      canvas.fillRect(0, 0, width, height);
+    // 计算cover模式下的绘制参数
+    const originRatio = this.__originWidth / this.__originHeight;
+    const targetRatio = width / height;
+
+    let sw = this.__originWidth;
+    let sh = this.__originHeight;
+    let sx = 0;
+    let sy = 0;
+    const dx = 0;
+    const dy = 0;
+    const dw = width;
+    const dh = height;
+
+    if (this.objectFit === 'cover') {
+      if (originRatio > targetRatio) {
+        // 原图更宽,需要裁剪宽度
+        sw = this.__originHeight * targetRatio;
+        sx = (this.__originWidth - sw) / 2;
+      } else {
+        // 原图更高,需要裁剪高度
+        sh = this.__originWidth / targetRatio;
+        sy = (this.__originHeight - sh) / 2;
+      }
     }
 
-    if (this.image && !this.filters?.length) {
-      context.drawImage(
-        this.image.view as HTMLImageElement,
-        0,
-        0,
-        width,
-        height,
-      );
-    } else {
-      context.drawImage(this.__element, 0, 0, width, height);
-    }
+    const imageSource =
+      this.image && !this.filters?.length
+        ? (this.image.view as HTMLImageElement)
+        : this.__element;
+
+    context.drawImage(imageSource, sx, sy, sw, sh, dx, dy, dw, dh);
   }
 
-  __applyFilters(filters: IBaseFilter) {
+  applyFilters(filters: IBaseFilter) {
     const webglBackend = getWebFilterBackend();
     this.filters = filters;
     if (!this.image) return;
