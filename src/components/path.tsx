@@ -8,8 +8,8 @@
  */
 
 import { type IPathInputData, Path as LeaferPath } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IPathProps extends Omit<IPathInputData, 'children'> {}
 

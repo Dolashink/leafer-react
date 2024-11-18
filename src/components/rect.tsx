@@ -8,8 +8,8 @@
  */
 
 import { type IRectInputData, Rect as LeaferRect } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IRectProps extends Omit<IRectInputData, 'children'> {}
 

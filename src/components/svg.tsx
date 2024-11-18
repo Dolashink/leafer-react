@@ -13,8 +13,8 @@ import {
   Rect as LeaferRect,
   Platform,
 } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface ISvgProps extends Omit<IImageInputData, 'children'> {
   url: string;

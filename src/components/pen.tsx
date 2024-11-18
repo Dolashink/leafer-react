@@ -8,8 +8,8 @@
  */
 
 import { type IPenInputData, Pen as LeaferPen } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IPenProps extends Omit<IPenInputData, 'children'> {}
 

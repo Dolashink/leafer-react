@@ -16,12 +16,15 @@ export const useLeaferView = <T extends App | Leafer>(
 ) => {
   useEffect(() => {
     if (!leafer) return;
+
     if (leafer.config.move) {
       leafer.config.move.disabled = props.disableMove;
     }
+
     if (leafer.config.wheel) {
       leafer.config.wheel.disabled = props.disableWheel;
     }
+
     if (leafer.config.zoom) {
       leafer.config.zoom.disabled = props.disableZoom;
     }

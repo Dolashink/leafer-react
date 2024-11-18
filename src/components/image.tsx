@@ -9,8 +9,8 @@
 
 import { ImageEvent } from 'leafer-ui';
 import { useEffect } from 'react';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 import {
   CustomImage,
   type FitMode,

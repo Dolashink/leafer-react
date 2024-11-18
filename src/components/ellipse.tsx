@@ -8,8 +8,8 @@
  */
 
 import { type IEllipseInputData, Ellipse as LeaferEllipse } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IEllipseProps extends Omit<IEllipseInputData, 'children'> {}
 

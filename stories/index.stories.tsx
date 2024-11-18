@@ -1,5 +1,14 @@
+/*
+ * @Description: 请补充模块描述
+ *
+ * @Author: Jin
+ * @Date: 2024-11-07 15:32:12
+ *
+ * Copyright © 2014-2024 Rabbitpre.com. All Rights Reserved.
+ */
+
 import React from 'react';
-import { LeaferApp } from '../src';
+import { LeaferApp, Rect } from '../src';
 
 const LeaferAppComponent = ({
   fill,
@@ -9,6 +18,8 @@ const LeaferAppComponent = ({
   disableMove,
   disableWheel,
   disableZoom,
+  hoveredId,
+  selectedIds,
 }) => {
   return (
     <LeaferApp
@@ -19,7 +30,11 @@ const LeaferAppComponent = ({
       disableMove={disableMove}
       disableWheel={disableWheel}
       disableZoom={disableZoom}
-    />
+      hoveredId={hoveredId}
+      selectedIds={selectedIds}
+    >
+      <Rect id={'123'} width={100} height={100} fill={'red'} editable={true} />
+    </LeaferApp>
   );
 };
 
@@ -34,6 +49,8 @@ export default {
     disableMove: { control: 'boolean' },
     disableWheel: { control: 'boolean' },
     disableZoom: { control: 'boolean' },
+    hoveredId: { control: 'text' },
+    selectedIds: { control: 'array' },
   },
 };
 
@@ -46,5 +63,7 @@ export const Primary = {
     disableMove: false,
     disableWheel: false,
     disableZoom: false,
+    hoveredId: '',
+    selectedIds: [],
   },
 };

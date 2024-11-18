@@ -10,6 +10,7 @@
 import {
   EditorEvent,
   EditorMoveEvent,
+  EditorRotateEvent,
   EditorScaleEvent,
 } from '@leafer-in/editor';
 import {
@@ -18,17 +19,20 @@ import {
   type IAppConfig,
   type IEditorBase,
   type ILeafer,
+  type IPointerEvent,
   type MoveEvent as LeaferMoveEvent,
+  PointerEvent,
 } from 'leafer-ui';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import { LeaferContext } from '../context/leaferContext';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import '@leafer-in/text-editor';
 import '@leafer-in/view';
 import { ScrollBar } from '@leafer-in/scroll';
 import { Ruler } from 'leafer-x-ruler';
-import useLeaferProps from '../hooks/useLeaferProps';
+import useLeaferCmpProps from '../hooks/useLeaferCmpProps';
+import { useLeaferEditor } from '../hooks/useLeaferEditor';
 import { useLeaferView } from '../hooks/useLeaferView';
+import Editor from '../plugins/editor';
 import type { MoveEvent } from '../types/editor';
 
 export interface LeaferAppRef {
@@ -46,10 +50,16 @@ export interface AppProps extends IAppConfig {
   disableMove?: boolean;
   disableWheel?: boolean;
   disableZoom?: boolean;
+  selectedIds?: string[];
+  hoveredId?: string;
   onSelect?: (e: EditorEvent) => void;
   onMove?: (e: EditorMoveEvent) => void;
   onMoveEnd?: (e: MoveEvent) => void;
   onScale?: (e: EditorScaleEvent) => void;
+  onScaleEnd?: (e: EditorScaleEvent) => void;
+  onRotate?: (e: EditorRotateEvent) => void;
+  onRotateEnd?: (e: EditorRotateEvent) => void;
+  onMenuTap?: (e: IPointerEvent) => void;
 }
 
 function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
@@ -62,7 +72,11 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
     onSelect,
     onMove,
     onScale,
+    onScaleEnd,
     onMoveEnd,
+    onRotate,
+    onRotateEnd,
+    onMenuTap,
     editor,
     ...rest
   } = props;
@@ -70,7 +84,13 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
   const scrollBarRef = useRef<ScrollBar | null>(null);
 
   const initApp = () => {
-    const app = new App({ editor, view: appId, ...rest });
+    const app = new App({ view: appId, ...rest });
+    app.tree = app.addLeafer();
+    app.sky = app.addLeafer({ type: 'draw', usePartRender: false });
+
+    app.editor = new Editor(editor);
+
+    app.sky.add(app.editor);
     if (app.sky) {
       rulerRef.current = new Ruler(app);
       scrollBarRef.current = new ScrollBar(app);
@@ -79,12 +99,23 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
     app.editor?.on(EditorEvent.SELECT, onSelect);
     app.editor?.on(EditorMoveEvent.MOVE, onMove);
     app.editor?.on(EditorScaleEvent.SCALE, onScale);
+    app.editor?.on(EditorRotateEvent.ROTATE, onRotate);
+    app.editor?.on('editor.scaleEnd', (e: EditorScaleEvent) => {
+      const event = { ...e, target: app.editor.target };
+      onScaleEnd?.(event as EditorScaleEvent);
+    });
     // Listen to editor's edit box drag end event to implement editor drag end event (refer to source code)
     app.editor?.editBox?.rect?.on(DragEvent.END, (e: LeaferMoveEvent) => {
       // Create new object instead of modifying readonly target property
       const event = { ...e, target: app.editor.target };
       onMoveEnd?.(event as MoveEvent);
     });
+    // Listen to editor's rotate end event
+    app.editor?.on('editor.rotateEnd', e => {
+      const event = { ...e, target: app.editor.target };
+      onRotateEnd?.(event as EditorRotateEvent);
+    });
+    app.on(PointerEvent.MENU_TAP, onMenuTap);
     return app;
   };
 
@@ -96,9 +127,8 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
   }, [ruler, scrollBar]);
 
   useEffect(() => {
-    if (!leaferApp) return;
     requestIdleCallback(() => {
-      if (leaferApp.tree.children.length) {
+      if (leaferApp?.tree.children.length) {
         leaferApp.tree.zoom(leaferApp.tree.children[0]);
       }
     });
@@ -106,7 +136,9 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
 
   useLeaferView(leaferApp, props);
 
-  useLeaferProps(leaferApp, rest);
+  useLeaferEditor(leaferApp, props);
+
+  useLeaferCmpProps(leaferApp, rest);
 
   useImperativeHandle(ref, () => ({
     leaferApp,

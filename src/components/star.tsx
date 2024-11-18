@@ -8,8 +8,8 @@
  */
 
 import { type IStarInputData, Star as LeaferStar } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IStarProps extends Omit<IStarInputData, 'children'> {}
 

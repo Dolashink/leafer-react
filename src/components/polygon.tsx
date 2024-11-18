@@ -8,8 +8,8 @@
  */
 
 import { type IPolygonInputData, Polygon as LeaferPolygon } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IPolygonProps extends Omit<IPolygonInputData, 'children'> {}
 

@@ -10,8 +10,8 @@
 import { type IFrameInputData, Frame as LeaferFrame } from 'leafer-ui';
 import React, { useImperativeHandle } from 'react';
 import { LeaferContext } from '../context/leaferContext';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IFrameProps extends Omit<IFrameInputData, 'children'> {
   children?: React.ReactNode;

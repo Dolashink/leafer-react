@@ -10,7 +10,7 @@
 import type { UI } from 'leafer-ui';
 import { useEffect } from 'react';
 
-function useLeaferProps<T extends UI>(
+function useLeaferCmpProps<T extends UI>(
   leaferInstance: T | null,
   props: Record<string, any>,
 ) {
@@ -22,4 +22,4 @@ function useLeaferProps<T extends UI>(
   }, [props, leaferInstance]);
 }
 
-export default useLeaferProps;
+export default useLeaferCmpProps;

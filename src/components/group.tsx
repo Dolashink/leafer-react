@@ -10,8 +10,8 @@
 import { type IGroupInputData, Group as LeaferGroup } from 'leafer-ui';
 import type React from 'react';
 import { LeaferContext } from '../context/leaferContext';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface IGroupProps extends Omit<IGroupInputData, 'children'> {
   children?: React.ReactNode;

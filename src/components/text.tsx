@@ -8,8 +8,8 @@
  */
 
 import { type ITextInputData, Text as LeaferText } from 'leafer-ui';
+import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
-import useLeaferProps from '../hooks/useLeaferProps';
 
 export interface ITextProps extends Omit<ITextInputData, 'children'> {}
 

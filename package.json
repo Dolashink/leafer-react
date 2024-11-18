@@ -43,13 +43,16 @@
     "pre-commit": "npx lint-staged"
   },
   "dependencies": {
-    "@leafer-in/editor": "^1.0.8",
-    "@leafer-in/scroll": "^1.0.8",
-    "@leafer-in/text-editor": "^1.0.8",
-    "@leafer-in/view": "^1.0.8",
-    "@leafer-ui/interface": "^1.0.8",
+    "@leafer-in/editor": "^1.0.9",
+    "@leafer-in/interface": "^1.0.9",
+    "@leafer-in/scroll": "^1.0.9",
+    "@leafer-in/text-editor": "^1.0.9",
+    "@leafer-in/view": "^1.0.9",
+    "@leafer-ui/core": "^1.0.9",
+    "@leafer-ui/draw": "^1.0.9",
+    "@leafer-ui/interface": "^1.0.9",
     "fabric": "^6.4.3",
-    "leafer-ui": "^1.0.8",
+    "leafer-ui": "^1.0.9",
     "leafer-x-ruler": "^1.0.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -61,15 +64,15 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@modern-js/module-tools": "2.60.4",
+    "@modern-js/storybook": "2.60.4",
+    "@storybook/addon-essentials": "^7",
     "@types/node": "~16.11.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "lint-staged": "~13.1.0",
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.11.1",
-    "typescript": "~5.5.4",
-    "@modern-js/storybook": "2.60.4",
-    "@storybook/addon-essentials": "^7"
+    "typescript": "~5.5.4"
   },
   "sideEffects": [],
   "publishConfig": {
