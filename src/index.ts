@@ -26,8 +26,17 @@ export { default as Text, type ITextProps } from './components/text';
 export { default as Svg, type ISvgProps } from './components/svg';
 export { default as Star, type IStarProps } from './components/star';
 export { default as Leafer, type ILeaferProps } from './components/leafer';
-export type { MoveEvent } from './types/editor';
 
 export type { IBaseProps } from './types';
-export type { EditorEvent, IEditorConfig } from './types/editor';
+export type {
+  EditorEvent,
+  IEditorConfig,
+  IPointerEvent,
+  EditorScaleEvent,
+  EditorRotateEvent,
+  MoveEvent,
+  IEditorEvent,
+  IZoomEvent,
+  IUI,
+} from './types/editor';
 export * from './types/filters';
