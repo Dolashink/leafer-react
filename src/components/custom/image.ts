@@ -29,7 +29,7 @@ import { type IBaseFilter, getWebFilterBackend } from '../../utils/image';
 
 // Define data
 
-export type FitMode = 'fill' | 'cover';
+export type FitMode = 'fill' | 'cover' | 'contain';
 
 export interface ICustomInputData extends IUIInputData {
   url?: string;
@@ -163,13 +163,28 @@ export class CustomImage extends UI {
 
     if (this.objectFit === 'cover') {
       if (originRatio > targetRatio) {
-        // 原图更宽,需要裁剪宽度
+        // Original image is wider, need to crop width
         sw = this.__originHeight * targetRatio;
         sx = (this.__originWidth - sw) / 2;
       } else {
-        // 原图更高,需要裁剪高度
+        // Original image is taller, need to crop height
         sh = this.__originWidth / targetRatio;
         sy = (this.__originHeight - sh) / 2;
+      }
+    }
+
+    if (this.objectFit === 'contain') {
+      // Compare original image ratio with target area ratio
+      if (originRatio > targetRatio) {
+        // Original image is wider, need to fit height
+        sh = width / originRatio;
+        sw = width;
+        sy = (height - sh) / 2;
+      } else {
+        // Original image is taller, need to fit width
+        sw = height * originRatio;
+        sh = height;
+        sx = (width - sw) / 2;
       }
     }
 
@@ -178,7 +193,11 @@ export class CustomImage extends UI {
         ? (this.image.view as HTMLImageElement)
         : this.__element;
 
-    context.drawImage(imageSource, sx, sy, sw, sh, dx, dy, dw, dh);
+    if (this.objectFit === 'contain') {
+      context.drawImage(imageSource, sx, sy, sw, sh);
+    } else {
+      context.drawImage(imageSource, sx, sy, sw, sh, dx, dy, dw, dh);
+    }
   }
 
   applyFilters(filters: IBaseFilter) {

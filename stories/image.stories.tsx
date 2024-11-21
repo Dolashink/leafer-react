@@ -39,7 +39,7 @@ export default {
     width: { control: 'number' },
     height: { control: 'number' },
     editable: { control: 'boolean' },
-    objectFit: { control: 'select', options: ['fill', 'cover'] },
+    objectFit: { control: 'select', options: ['fill', 'cover', 'contain'] },
   },
 };
 
