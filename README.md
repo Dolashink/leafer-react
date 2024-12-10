@@ -1,14 +1,15 @@
-# Leafer-react
-A React components library based on leafer-ui
+# Leafer-react组件库
+基于leafer-ui的React组件库
+[English](./README.en.md)
 
-## Setup
-You should install the package first
+## 前置
+先安装leafer-react依赖包
 ```
 npm install leafer-react
 ```
 
-## Get Started
-Use it like react component
+## 开始
+我们可以像使用其他react组件库一样使用它
 ```javascript
 import { LeaferApp, Frame, Rect } from 'leafer-react';
 
@@ -25,23 +26,22 @@ function MyLeaferApp () {
 export MyLeaferApp;
 ```
 
-## More Examples
-View component exampltes in useing storybook, you should clone the project from github first [leafer-react](https://github.com/Dolashink/leafer-react)
+## 更多示例
+查看基于Storybook的组件示例，您首先应该从 GitHub 上克隆该项目 [leafer-react](https://github.com/Dolashink/leafer-react)
 
-Into the project directory
+进入项目目录
 
 ```
 cd leafer-react
 ```
-Install the package
+安装所需依赖包
 ```
 pnpm install
 ```
-And execute the following command
+执行以下命令，启动storybook
 ```
 pnpm run storybook
 ```
 
-## More features are coming...
-
-For more information, see the [github](https://github.com/Dolashink/leafer-react).
+### 更多功能施工中🚧...
+关于其它信息，请参阅 [leafer-react](https://github.com/Dolashink/leafer-react).
