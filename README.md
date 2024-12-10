@@ -25,5 +25,23 @@ function MyLeaferApp () {
 export MyLeaferApp;
 ```
 
+## More Examples
+View component exampltes in useing storybook, you should clone the project from github first [leafer-react](https://github.com/Dolashink/leafer-react)
+
+Into the project directory
+
+```
+cd leafer-react
+```
+Install the package
+```
+pnpm install
+```
+And execute the following command
+```
+pnpm run storybook
+```
+
+## More features are coming...
 
 For more information, see the [github](https://github.com/Dolashink/leafer-react).
