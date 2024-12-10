@@ -14,11 +14,7 @@ const LeaferImage = ({ x, y, width, height, editable, objectFit }) => {
   return (
     <LeaferApp fill={'#f5f5f5'} editor={{}}>
       <Image
-        fill={{
-          type: 'image',
-          url: 'https://img1.baidu.com/it/u=259106471,2671512290&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1062',
-          mode: 'fit',
-        }}
+        url="https://img1.baidu.com/it/u=259106471,2671512290&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1062"
         x={x}
         y={y}
         width={width}

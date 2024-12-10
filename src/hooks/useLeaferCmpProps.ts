@@ -13,13 +13,17 @@ import { useEffect } from 'react';
 function useLeaferCmpProps<T extends UI>(
   leaferInstance: T | null,
   props: Record<string, any>,
+  ignoreKeys: string[] = [],
 ) {
   useEffect(() => {
     if (!leaferInstance) return;
     for (const key in props) {
-      leaferInstance.setAttr(key, props[key]);
+      if (ignoreKeys.includes(key)) continue;
+      if (props[key] !== leaferInstance.getAttr(key)) {
+        leaferInstance.setAttr(key, props[key]);
+      }
     }
-  }, [props, leaferInstance]);
+  }, [props, leaferInstance, ignoreKeys]);
 }
 
 export default useLeaferCmpProps;

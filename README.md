@@ -15,10 +15,10 @@ import { LeaferApp, Frame, Rect } from 'leafer-react';
 function MyLeaferApp () {
     return (
         <LeaferApp>
-            <Frame fill="#f5f5f5" />
+            <Frame fill="#f5f5f5">
                 <Rect width={375} height={667} fill="red" />
             </Frame>
-        <LeaferApp />
+        </LeaferApp>
     )
 }
 

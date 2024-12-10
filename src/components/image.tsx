@@ -58,7 +58,7 @@ function Image(props: IImageProps) {
     }
   }, [image, props.objectFit]);
 
-  useLeaferProps(image, props);
+  useLeaferProps(image, props, ['filters']);
 
   return null;
 }
