@@ -13,6 +13,7 @@ import { LeaferContext } from '../context/leaferContext';
 import useLeaferProps from '../hooks/useLeaferCmpProps';
 import useLeaferComponent from '../hooks/useLeaferComponent';
 import { useLeaferView } from '../hooks/useLeaferView';
+import '@leafer-in/viewport';
 
 export interface LeaferRef {
   leafer: LeaferUI;

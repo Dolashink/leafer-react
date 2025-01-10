@@ -34,6 +34,7 @@ import { useLeaferEditor } from '../hooks/useLeaferEditor';
 import { useLeaferView } from '../hooks/useLeaferView';
 import Editor from '../plugins/editor';
 import type { MoveEvent } from '../types/editor';
+import '@leafer-in/viewport';
 
 export interface LeaferAppRef {
   leaferApp: App | null;
@@ -85,7 +86,7 @@ function LeaferApp(props: AppProps, ref: React.Ref<LeaferAppRef>) {
 
   const initApp = () => {
     const app = new App({ view: appId, ...rest });
-    app.tree = app.addLeafer();
+    app.tree = app.addLeafer({ type: 'viewport', usePartRender: false });
     app.sky = app.addLeafer({ type: 'draw', usePartRender: false });
 
     app.editor = new Editor(editor);
